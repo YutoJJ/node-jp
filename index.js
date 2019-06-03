@@ -1,6 +1,6 @@
 'use strict';
 
-require('donetv').config();
+require('dotenv').config();
 
 const express = require('express');
 const app = express();
@@ -13,7 +13,7 @@ app.get('/test', (req, res) => {
     res.send('Testing is fun');
 });
 
-app.listen(3000);
+app.listen(process.env.PORT);
 
 
 
