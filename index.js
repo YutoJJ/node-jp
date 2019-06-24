@@ -4,18 +4,22 @@ require('dotenv').config();
 
 
 const express = require('express');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const db = require('./db');
 
-const Schema = mongoose.Schema;
+//const Schema = mongoose.Schema;
 
 
 const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended:false}));
 
+//const user =require('./user/model');
+
+
 ////////////////////////////////////////////////
+/*
 const userSchema = new Schema({
   firstname: String,
   lastname: String,
@@ -23,29 +27,17 @@ const userSchema = new Schema({
 
 });
 const user = mongoose.model('User',userSchema);
+
+//to model.js
+*/
+
 ////////////////////////////////////////////////
 
 db.on('connected',() =>app.listen(process.env.PORT));
 
- /*
-const catSchema = new Schema({
-  name: String,
-  age: {
-    type: Number,
-    min: 0
-  },
-  gender:{
-    "enum": ["male", "female"],
-    type: String
-  },
-  color:String,
-  weight:Number
+app.use('/user',require('./user/routes'));
 
-});
-
-const cat = mongoose.model('Cat',catSchema);
-*/
-
+/*
 
 mongoose.connect('mongodb://localhost:27017/test' , {useNewUrlParser: true}).then(() => {
   console.log('Connected successfully.');
@@ -53,29 +45,11 @@ mongoose.connect('mongodb://localhost:27017/test' , {useNewUrlParser: true}).the
 }, err => {
   console.log('Connection to db failed: ' + err);
 });
-/*
-app.post('/cats',(req,res)=>{
-  console.log('data from http post',req.body);
-  user.create({
-      name:req.body.name,
-      age: req.body.age,
-      gender: req.body.gender,
-      color: req.body.color,
-      weight: req.body.weight
-  }).then(c => {
-      res.send(`cat ${cat.name} created with id: ${cat._id}`);
 
-  });
-});
-
-app.get('/cats',(req,res)=>{
-  user.find().then(usrs=>{
-      
-  });
-});
+//to db.js
 */
 
-///////////////////////////////////////////
+/*
 app.post('/user',(req,res)=>{
 
     console.log('data from http post',req.body);
@@ -94,9 +68,8 @@ app.get('/user',(req,res)=>{
         res.send(usrs);
     });
 });
-
-
-///////////////////////////////////////////
+//to routes.js
+*/
 
 
 app.get('/', (req, res) => {
@@ -107,13 +80,14 @@ app.get('/test', (req, res) => {
     res.send('Testing is fun');
 });
 
+/*
 app.post('/user',(req, res)=>{
   console.log('data from ...',req.body);
   res.send();
 
 });
+*/
+//app.listen(process.env.PORT);
 
-app.listen(process.env.PORT);
-
-app.post('/user')
+//app.post('/user')
 

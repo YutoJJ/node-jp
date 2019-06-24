@@ -1,4 +1,4 @@
-
+//use strict is implicit in module
 
 const mongoose = require('mongoose');
 
@@ -8,4 +8,4 @@ mongoose.connect(process.env.DB_URL , {useNewUrlParser: true}).then(() => {
   console.log('Connection to db failed: ' + err);
 });
 
-module.exports = mongoose.Connection
+module.exports = mongoose.connection;
