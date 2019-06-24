@@ -1,0 +1,1 @@
+//use strict is implicit in moduele  
