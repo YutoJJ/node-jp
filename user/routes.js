@@ -25,7 +25,14 @@ router.route('/user')
 
 router.route('/:id')
   .get((req,res) =>{
-    //user.findById(req.)
-    res.send('user');
-  });
+    user.findById(req.params.id).then(usr => res.send(usr));
+  })
+  .patch((req,res) => {
+      res.ok().send('user updated successfully');
+  })
+  .delete((req,res) => {
+      user.findByIdAndDelete(req.params.id).then(() =>res.ok());
+  })
+
+
 module.exports = router;

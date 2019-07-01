@@ -8,7 +8,37 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./db');
 
+db.on('connected',() =>{
+  if(process.env.NODE_ENV ==='development'){
+    require('./localhost'(app,8000,3000));
+
+  }else{
+    require('./production')(app,process.env.PORT);
+  }
+});
+
+
+/*
+const https = require('https');
+const fs = require('fs');
+const http = require('http');
+
+http.createServer((req, res) => {
+      res.writeHead(301, { 'Location': 'https://localhost:8000' + req.url });
+      res.end();
+}).listen(3000);
+
 //const Schema = mongoose.Schema;
+
+const sslkey = fs.readFileSync('../ssl-key.pem');
+const sslcert = fs.readFileSync('../ssl-cert.pem');
+
+const options = {
+  key: sslkey,
+  cert: sslcert
+};
+*/
+
 
 
 const app = express();
@@ -33,7 +63,7 @@ const user = mongoose.model('User',userSchema);
 
 ////////////////////////////////////////////////
 
-db.on('connected',() =>app.listen(process.env.PORT));
+db.on('connected',() =>https.createServer(options, app).listen(8000));
 
 app.use('/user',require('./user/routes'));
 
@@ -73,7 +103,12 @@ app.get('/user',(req,res)=>{
 
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    if(req.secure){
+      res.send('Hello SECURE World from JOJO');
+    }else{
+      res.send('Hello UNSECURE World ...');
+    }
+    
 });
 
 app.get('/test', (req, res) => {
