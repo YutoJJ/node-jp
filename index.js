@@ -35,7 +35,7 @@ app.use(passport.initialize());
 app.use(bodyParser.urlencoded({extended:false}));
 
 
-db.on('connected',() =>https.createServer(options, app).listen(8000));
+//db.on('connected',() =>https.createServer(options, app).listen(8000));
 
 app.use('/user',require('./user/routes'));
 
