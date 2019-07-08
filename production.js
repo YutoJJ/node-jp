@@ -1,4 +1,4 @@
-module.exports = (app.port) => {
+module.exports = (app, port) => {
     app.enable('trust proxy');
 
     app.use((req,res,next)=>{
@@ -13,6 +13,5 @@ module.exports = (app.port) => {
     });
 
     app.listen(port);
-};
 
 
