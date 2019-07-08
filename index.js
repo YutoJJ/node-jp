@@ -8,6 +8,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const db = require('./db');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 
 const saltRound = 12;
 
@@ -26,10 +27,28 @@ passport.use(new LocalStrategy(
 ));
 
 
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+app.use(session({
+  secret: 'some s3cr3t value',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { secure: true, // only over https
+    maxAge: 2 * 60 * 60 * 1000} // 2 hours
+}));
+
 
 const app = express();
 app.use(express.static('public'));
 app.use(passport.initialize());
+app.use(passport.session());
+
 
 
 db.on('connected',() =>{
@@ -53,13 +72,14 @@ app.post('/login',
   passport.authenticate('local', { 
     successRedirect: '/', 
     failureRedirect: '/login.html', 
-    session: false })
+  })
 );
 
 
 app.get('/', (req, res) => {
     if(req.secure){
-      res.send('Hello SECURE World from JOJO');
+      const userdata = req.user.username;
+      res.send('Hello ${userdata},this is SECURE app from JOJO');
     }else{
       res.send('Hello UNSECURE World ...');
     }
