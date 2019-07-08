@@ -24,7 +24,7 @@ passport.use(new LocalStrategy(
 
 db.on('connected',() =>{
   if(process.env.NODE_ENV ==='development'){
-    require('./localhost'(app,8000,process.env.PORT));
+    require('./localhost'(app,process.env.HTTPS,process.env.PORT));
 
   }else{
     require('./production')(app,process.env.PORT);
