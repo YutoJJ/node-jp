@@ -2,7 +2,6 @@
 
 require('dotenv').config();
 
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -18,7 +17,7 @@ passport.use(new LocalStrategy(
           return;
       }
       console.log('login ok :)');
-      return done(null, {}); // returned object usally contains something to identify the user
+      return done(null, {username: username}); // returned object usally contains something to identify the user
   }
 ));
 
