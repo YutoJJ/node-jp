@@ -11,10 +11,13 @@ const db = require('./db');
 
 passport.use(new LocalStrategy(
   (username, password, done) => {
+      console.log('login...');
       if (username !== process.env.username || password !== process.env.password) {
+          console.log('login failed...')
           done(null, false, {message: 'Incorrect credentials.'});
           return;
       }
+      console.log('login ok :)');
       return done(null, {}); // returned object usally contains something to identify the user
   }
 ));
