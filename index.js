@@ -22,6 +22,13 @@ passport.use(new LocalStrategy(
   }
 ));
 
+
+
+const app = express();
+app.use(express.static('public'));
+app.use(passport.initialize());
+
+
 db.on('connected',() =>{
   if(process.env.NODE_ENV ==='development'){
     require('./localhost'(app,process.env.HTTPS,process.env.PORT));
@@ -32,9 +39,6 @@ db.on('connected',() =>{
 });
 
 
-const app = express();
-app.use(express.static('public'));
-app.use(passport.initialize());
 app.use(bodyParser.urlencoded({extended:false}));
 
 
